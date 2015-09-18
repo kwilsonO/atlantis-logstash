@@ -1,8 +1,8 @@
-CONF_FILE_PATH="atlantis.conf"
+CONF_FILE_PATH="atlantis.config"
 REPO_NAME="atlantis-logstash"
 
 if [[! -e $CONF_FILE_PATH]]; then 
-	echo "No config file found, looking for atlantis.conf in the current run directory"
+	echo "No config file found, please use a pre-existing config in template-configs, or fill out the template"
 	exit 1
 fi
 
