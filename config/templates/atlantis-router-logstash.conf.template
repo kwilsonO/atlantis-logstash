@@ -1,7 +1,6 @@
 input { 
    file {
 	path => "/var/log/syslog*"
-	start_position => beginning
 	type => "atlantis-router"
 	codec => plain {
 		charset => "ISO-8859-1"
@@ -10,14 +9,14 @@ input {
 
 
    exec {
-	command => "bash /root/atlantis-analytics/logstash-atlantis-router/scripts/exec/router-disk-usage.sh"
-	interval => 60
+	command => "bash #LSREPOROOT#/scripts/exec/router-disk-usage.sh"
+	interval => 180
 	type => "atlantis-router-exec-disk"
    }
 
    exec {
-	command => "bash /root/atlantis-analytics/logstash-atlantis-router/scripts/exec/mem-usage.sh"
-	interval => 15
+	command => "bash #LSREPOROOT#/scripts/exec/mem-usage.sh"
+	interval => 120 
 	type => "atlantis-router-exec-mem"
 
    }
@@ -26,16 +25,19 @@ input {
 
 #TEMPLATE FIELDS
 filter { 
-	mutate { 
-	add_field => { 'host-full-hostname' => 'INSTFULLHOST'  } 
-	add_field => { 'host-inst-id' => 'INSTID' } 
-	add_field => { 'host-inst-type' => 'INSTTYPE' } 
-	add_field => { 'host-local-hostname' => 'INSTLOCALHST' } 
-	add_field => { 'host-local-ipv4' => 'INSTLOCALIPV4' } 
-	add_field => { 'host-mac-addr' => 'INSTMACADDR' } 
-	add_field => { 'host-pub-hostname' => 'INSTPUBHOST' } 
-	add_field => { 'host-pub-ipv4' => 'INSTPUBIP' } 
-	add_field => { 'host-sec-groups' => 'INSTSECG' }  
+	mutate {
+	add_field => { 'host-full-hostname' => '#INSTFULLHOST#'  } 
+	add_field => { 'host-inst-id' => '#INSTID#' } 
+	add_field => { 'host-inst-type' => '#INSTTYPE#' } 
+	add_field => { 'host-local-hostname' => '#INSTLOCALHST#' } 
+	add_field => { 'host-local-ipv4' => '#INSTLOCALIPV4#' } 
+	add_field => { 'host-mac-addr' => '#INSTMACADDR#' } 
+	add_field => { 'host-pub-hostname' => '#INSTPUBHOST#' } 
+	add_field => { 'host-pub-ipv4' => '#INSTPUBIP#' } 
+	add_field => { 'host-sec-groups' => '#INSTSECG#' }  
+	add_field => { 'es-hostname' => '#ESHOSTNAME#' }
+	add_field => { 'es-clustername' => '#ESCLUSTERNAME#' }
+	add_field => { 'es-index-prefix' => '#ESINDEXPREFIX#' }
 	}
 }
 
@@ -144,23 +146,23 @@ output {
 	#use http_version since it's the last field thus it was parsed fully
 	if [http_version]  {
 		elasticsearch {
-			cluster => "elasticsearch-atlantis" 
-			host => "ec2-54-83-111-222.compute-1.amazonaws.com"
-			index => "router-access-%{host}"
+			cluster => "%{es-clustername}" 
+			host => "%{es-hostname}"
+			index => "%{es-index-prefix}router-access"
 		}
 	}
       } else if [type] == "atlantis-router-exec-disk" {
                 elasticsearch {
-                        cluster => "elasticsearch-atlantis"
-                        host => "ec2-54-83-111-222.compute-1.amazonaws.com"
-                        index => "routers-disk"
+                        cluster => "%{es-clustername}"
+                        host => "%{es-hostname}"
+                        index => "%{es-index-prefix}router-disk"
                 }
 
       } else if [type] == "atlantis-router-exec-mem" {
                 elasticsearch {
-                        cluster => "elasticsearch-atlantis"
-                        host => "ec2-54-83-111-222.compute-1.amazonaws.com"
-                        index => "routers-memory"
+                        cluster => "%{es-clustername}"
+                        host => "%{es-hostname}"
+                        index => "%{es-index-prefix}router-memory"
                 }
 
       }

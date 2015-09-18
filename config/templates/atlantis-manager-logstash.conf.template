@@ -6,39 +6,39 @@ input {
 
    #exec 
    exec {
-	command => "bash /root/atlantis-analytics/logstash-atlantis-manager/scripts/exec/manager-disk-usage.sh"
-	interval => 60
+	command => "bash #LSREPOROOT#/scripts/exec/manager-disk-usage.sh"
+	interval => 180 
 	type => "atlantis-manager-exec-disk"
    }
 
    exec {
-	command => "bash /root/atlantis-analytics/logstash-atlantis-manager/scripts/exec/mem-usage.sh"
-	interval => 15
+	command => "bash #LSREPOROOT#/scripts/exec/mem-usage.sh"
+	interval => 120 
 	type => "atlantis-manager-exec-mem"
    }
 
 
    #exec input to populate container data log
    exec {
-        command => "bash /root/atlantis-analytics/logstash-atlantis-manager/scripts/api/usage-script.sh"
-        interval => 45
+        command => "bash #LSREPOROOT#/scripts/api/usage-script.sh"
+        interval => 120 
         type => "exec-output"
    }
 
    #exec clean up old data file
    exec {
-	command => "bash /root/atlantis-analytics/logstash-atlantis-manager/scripts/api/clean-up.sh"
-        interval => 900 
+	command => "bash #LSREPOROOT#/scripts/api/clean-up.sh"
+        interval => 1200 
 	type => "exec-output"
    }
 
    file {
-        path => "/root/atlantis-analytics/logstash-atlantis-manager/data/containers/**/*"
+        path => "#LSREPOROOT#/data/containers/**/*"
         type => "atlantis-supervisor-container-info"
    }
 
   file {
-	path => "/root/atlantis-analytics/logstash-atlantis-manager/data/supervisors/*"
+	path => "#LSREPOROOT#/data/supervisors/*"
 	type => "atlantis-supervisor-usage-info"
   }
 }
@@ -57,6 +57,7 @@ filter {
         add_field => { 'host-sec-groups' => '#INSTSECG#' }
 	add_field => { 'es-hostname' => '#ESHOSTNAME#' }
 	add_field => { 'es-clustername' => '#ESCLUSTERNAME#' }
+	add_field => { 'es-index-prefix' => '#ESINDEXPREFIX#' }
         }
 }
 
