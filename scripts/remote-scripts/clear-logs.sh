@@ -1,7 +1,10 @@
-myname="$(cat /root/atlantis-analytics/localname)"
+CONF_FILE="${LS_REPO_ROOT}/atlantis.config"
 
-echo "${myname} Clear-logs:"
+#read config file
+source "${CONF_FILE}"
+
+echo "${LS_NAME} : ${LS_COMPONENT_TYPE} Clear-logs:"
 
 echo "Clearing logs..."
-rm /var/log/atlantis/logstash/err.log
-rm /var/log/atlantis/logstash/out.log
+rm $LS_LOG_PATH/err.log
+rm $LS_LOG_PATH/out.log

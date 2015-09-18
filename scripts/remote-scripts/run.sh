@@ -1,7 +1,9 @@
-myname="$(cat /root/atlantis-analytics/localname)"
-REPOTYPE="${myname%%-*}"
+CONF_FILE="${LS_REPO_ROOT}/atlantis.config"
 
-echo "${myname} Run:"
+#read config vars
+source "$CONF_FILE"
+
+echo "${LS_NAME} : ${LS_COMPONENT_TYPE} Run:"
 
 echo "Starting logstash run script..."
-bash /root/atlantis-analytics/logstash-atlantis-$REPOTYPE/run.sh
+bash $LS_REPO_ROOT/run.sh

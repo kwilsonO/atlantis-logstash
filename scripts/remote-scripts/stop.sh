@@ -1,16 +1,19 @@
-myname="$(cat /root/atlantis-analytics/localname)"
+CONF_FILE="${LS_REPO_ROOT}/atlantis.config"
 
-echo "${myname} Stop:"
+#read config file
+source "${CONF_FILE}"
+
+echo "${LS_NAME} : ${LS_COMPONENT_TYPE} Stop:"
 
 echo "Stopping logstash..."
-myid="$(ps -ef | grep 'logstash-1.5.3' | grep -v grep | awk '{print $2}')"
+myprocid="$(ps -ef | grep "logstash-${LS_VERSION}" | grep -v grep | awk '{print $2}')"
 
-if [ "${myid}" = "" ]; then 
+if [ "${myprocid}" = "" ]; then 
 
 	echo "No logstash process found."
 else
 
-	echo "Killing proccess pid: ${myid}..."
-	kill -9 $myid
+	echo "Killing proccess pid: ${myprocid}..."
+	kill -9 $myprocid
 
 fi
