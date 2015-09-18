@@ -1,4 +1,4 @@
 *.log
-logstash-1.5.3/**
+logstash-*/**
 logs/**
 config-files/*.conf
