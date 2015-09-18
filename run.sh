@@ -1,7 +1,7 @@
 CONF_FILE_PATH="atlantis.config"
 REPO_NAME="atlantis-logstash"
 
-if [[! -e $CONF_FILE_PATH]]; then 
+if [[ ! -f $CONF_FILE_PATH ]]; then 
 	echo "No config file found, please use a pre-existing config in template-configs, or fill out the template"
 	exit 1
 fi
@@ -9,7 +9,7 @@ fi
 echo "Reading config file..."
 source "$CONF_FILE_PATH"
 
-if [[ "${LS_COMPONENT_TYPE}" != "router"]] && [[ "${LS_COMPONENT_TYPE}" != "manager" ]] && [[ "${LS_COMPONENT_TYPE}" != "supervisor" ]]; then
+if [ "${LS_COMPONENT_TYPE}" != "router" ] && [ "${LS_COMPONENT_TYPE}" != "manager" ] && [ "${LS_COMPONENT_TYPE}" != "supervisor" ]; then
 	echo "Component type: ${LS_COMPONENT_TYPE} not supported"
 	exit 1
 fi
@@ -60,7 +60,7 @@ fi
 
 
 
-RUNSCRIPTS="${LS_PATH}/${REPONAME}/scripts/run"
+RUNSCRIPTS="${LS_REPO_ROOT}/scripts/run"
 for f in $RUNSCRIPTS/*.sh; do
 
 	echo "Executing run script: $f"

@@ -2,3 +2,4 @@
 logstash-*/**
 logs/**
 config-files/*.conf
+.sincedb*

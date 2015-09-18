@@ -1,5 +1,5 @@
 #read config file
-source "${LS_REPO_ROOT}/atlantis.conf"
+source "${LS_REPO_ROOT}/atlantis.config"
 
 LSCONFIGDIR="${LS_REPO_ROOT}/config"
 LSTEMPLATESDIR="${LSCONFIGDIR}/templates"
@@ -32,7 +32,7 @@ fi
 
 #copy fresh template
 echo "Copying fresh template and inserting values..."
-cp ${LSTEMPLATESDIR}/${LSCONFIGFILE}.template 
+cp ${LSTEMPLATESDIR}/${LSCONFIGFILE}.template ${LSCONFIGDIR}/${LSCONFIGFILE}
 
 #download and insert instance data
 for i in "${!INSTANCEDATA[@]}"
