@@ -190,7 +190,7 @@ filter {
         if [type] == "atlantis-supervisor-container-info" {
 
 	grok {
-                match => [ "path", "/root/atlantis-analytics/logstash-atlantis-manager/data/containers/%{GREEDYDATA:supervisor-hostname}/containers%{DATA:datetime}.data" ]
+                match => [ "path", "#LSREPOROOT#/data/containers/%{GREEDYDATA:supervisor-hostname}/containers%{DATA:datetime}.data" ]
         }
 
 
@@ -214,7 +214,7 @@ filter {
         if [type] == "atlantis-supervisor-usage-info" {
 
 	grok {
-                match => [ "path", "/root/atlantis-analytics/logstash-atlantis-manager/data/supervisors/super%{DATA:datetime}.data" ]
+                match => [ "path", "#LSREPOROOT#/data/supervisors/super%{DATA:datetime}.data" ]
         }
 
 

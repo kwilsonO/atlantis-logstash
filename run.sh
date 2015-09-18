@@ -9,6 +9,9 @@ fi
 echo "Reading config file..."
 source "$CONF_FILE_PATH"
 
+#capture start time for status checks
+export LS_START_TIME="$(date +%s)"
+
 if [ "${LS_COMPONENT_TYPE}" != "router" ] && [ "${LS_COMPONENT_TYPE}" != "manager" ] && [ "${LS_COMPONENT_TYPE}" != "supervisor" ]; then
 	echo "Component type: ${LS_COMPONENT_TYPE} not supported"
 	exit 1
