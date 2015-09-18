@@ -1,7 +1,7 @@
 CONF_FILE_PATH="atlantis.config"
 REPO_NAME="atlantis-logstash"
 
-if [[! -e $CONF_FILE_PATH]]; then
+if [[ ! -f $CONF_FILE_PATH ]]; then
         echo "No config file found, please use a pre-existing configuration or fill in the template in the template-configs folder"
 	exit 1
 fi
@@ -25,7 +25,7 @@ else
 	export LS_SINCEDB="${LS_SINCEDB_DIR}"
 fi
 
-SETUPSCRIPTS="${LS_PATH}/scripts/setup"
+SETUPSCRIPTS="${LS_REPO_ROOT}/scripts/setup"
 
 
 for f in $SETUPSCRIPTS/*.sh; do
