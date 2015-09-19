@@ -144,24 +144,19 @@ if [ $# -ne 0 ]; then
 	cp "${OPTTEMPLATEDIR}/atlantis.${OPTREGION}${REGSTR}.config" "${OPTPATH}/atlantis.config"
 
 	#find and replace vars in config
-	sed -i.bak -E "s/LS_PATH=\".+?\"/LS_PATH=\"${OPTPATH}\"/g" $OPTPATH/atlantis.config
-	sed -i.bak -E "s/LS_LOG_PATH=\".+?\"/LS_LOG_PATH=\"${OPTPATH}\"/g" $OPTPATH/atlantis.config
-	sed -i.bak -E "s/LS_REGION=\".+?\"/LS_REGION=\"${OPTREGION}\"/g" $OPTPATH/atlantis.config
-	sed -i.bak -E "s/LS_ENVIROMENT=\".+?\"/LS_ENVIROMENT=\"${OPTENV}\"/g" $OPTPATH/atlantis.config
-	sed -i.bak -E "s/LS_COMPONENT_TYPE=\".+?\"/LS_COMPONENT_TYPE=\"${OPTCOMP}\"/g" $OPTPATH/atlantis.config
-	sed -i.bak -E "s/LS_SUB_REGION=\".+?\"/LS_SUB_REGION=\"${OPTSUBREG}\"/g" $OPTPATH/atlantis.config
-	sed -i.bak -E "s/LS_NODE_NAME=\".+?\"/LS_NODE_NAME=\"${OPTNAME}\"/g" $OPTPATH/atlantis.config
-	sed -i.bak -E "s/LS_INDEX_PREFIX=\".+?\"/LS_INDEX_PREFIX=\"${OPTESPREF}\"/g" $OPTPATH/atlantis.config
-	sed -i.bak -E "s/LS_VERSION=\".+?\"/LS_VERSION=\"${OPTLSVER}\"/g" $OPTPATH/atlantis.config
-	sed -i.bak -E "s/LS_ELASTIC_HOSTNAME=\".+?\"/LS_ELASTIC_HOSTNAME=\"${OPTESHN}\"/g" $OPTPATH/atlantis.config
-	sed -i.bak -E "s/LS_ELASTIC_CLUSTERNAME=\".+?\"/LS_ELASTIC_CLUSTERNAME=\"${OPTESCN}\"/g" $OPTPATH/atlantis.config
-	sed -i.bak -E "s/LS_SINCEDB_DIR=\".+?\"/LS_SINCEDB_DIR=\"${OPTSDBDIR}\"/g" $OPTPATH/atlantis.config
-	sed -i.bak -E "s/LS_DL_URL=\".+?\"/LS_DL_URL=\"${OPTLSDLURL}\"/g" $OPTPATH/atlantis.config
-
-
-
-
-	 
+	sed -i -E "s/LS_PATH=\".+?\"/LS_PATH=\"${OPTPATH}\"/g" $OPTPATH/atlantis.config
+	sed -i -E "s/LS_LOG_PATH=\".+?\"/LS_LOG_PATH=\"${OPTPATH}\"/g" $OPTPATH/atlantis.config
+	sed -i -E "s/LS_REGION=\".+?\"/LS_REGION=\"${OPTREGION}\"/g" $OPTPATH/atlantis.config
+	sed -i -E "s/LS_ENVIROMENT=\".+?\"/LS_ENVIROMENT=\"${OPTENV}\"/g" $OPTPATH/atlantis.config
+	sed -i -E "s/LS_COMPONENT_TYPE=\".+?\"/LS_COMPONENT_TYPE=\"${OPTCOMP}\"/g" $OPTPATH/atlantis.config
+	sed -i -E "s/LS_SUB_REGION=\".+?\"/LS_SUB_REGION=\"${OPTSUBREG}\"/g" $OPTPATH/atlantis.config
+	sed -i -E "s/LS_NODE_NAME=\".+?\"/LS_NODE_NAME=\"${OPTNAME}\"/g" $OPTPATH/atlantis.config
+	sed -i -E "s/LS_INDEX_PREFIX=\".+?\"/LS_INDEX_PREFIX=\"${OPTESPREF}\"/g" $OPTPATH/atlantis.config
+	sed -i -E "s/LS_VERSION=\".+?\"/LS_VERSION=\"${OPTLSVER}\"/g" $OPTPATH/atlantis.config
+	sed -i -E "s/LS_ELASTIC_HOSTNAME=\".+?\"/LS_ELASTIC_HOSTNAME=\"${OPTESHN}\"/g" $OPTPATH/atlantis.config
+	sed -i -E "s/LS_ELASTIC_CLUSTERNAME=\".+?\"/LS_ELASTIC_CLUSTERNAME=\"${OPTESCN}\"/g" $OPTPATH/atlantis.config
+	sed -i -E "s/LS_SINCEDB_DIR=\".+?\"/LS_SINCEDB_DIR=\"${OPTSDBDIR}\"/g" $OPTPATH/atlantis.config
+	sed -i -E "s/LS_DL_URL=\".+?\"/LS_DL_URL=\"${OPTLSDLURL}\"/g" $OPTPATH/atlantis.config
 
 fi
 
