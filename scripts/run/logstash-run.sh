@@ -41,14 +41,14 @@ do
 	VAL=$(curl -s "${URL}/${INSTANCEDATA[${i}]}")
 	#replace any spaces with colon
 	VAL=$(echo $VAL | sed 's/ /:/g')
-	SEDSTR="s/${i}/${VAL}/g"
+	SEDSTR="s|${i}|${VAL}|g"
 	sed -i $SEDSTR ${LSCONFIGDIR}/${LSCONFIGFILE} 
 done
 
 #insert node data
 for i in "${!NODEDATA[@]}"
 do
-	SEDSTR="s/${i}/${NODEDATA[${i}]}/g"
+	SEDSTR="s|${i}|${NODEDATA[${i}]}|g"
 	sed -i $SEDSTR ${LSCONFIGDIR}/${LSCONFIGFILE}
 done
 					
