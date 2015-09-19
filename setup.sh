@@ -48,7 +48,7 @@ if [ $# -ne 0 ]; then
 	OPTESHN="master1.elasticsearch.\${LS_REGION}.atlantis.services.ooyala.com"
 	OPTESCN="elasticsearch-atlantis"
 	OPTSDBDIR=""
-	OPTLSDLURL="https://download.elastic.co/logstash/logstash/logstash-\${LS_VERION}.tar.gz"
+	OPTLSDLURL="https://download.elastic.co/logstash/logstash/logstash-\${LS_VERSION}.tar.gz"
 	OPTBUILDONLY=""
 
 	#handle optional param line args
@@ -127,11 +127,13 @@ if [ $# -ne 0 ]; then
 			exit 1
 		fi
 	fi
-
+	OPTPATHROOT=""
 	OPTTEMPLATEDIR=""
 	if [[ "${OPTPATH}" == "" ]]; then
 		OPTPATH="/opt/atlantis/logstash/${REPO_NAME}"
+		OPTPATHROOT="/opt/atlantis/logstash"
 	else
+		OPTPATHROOT="${OPTPATH}"
 		OPTPATH="${OPTPATH}/${REPO_NAME}"
 	fi
 		
@@ -157,7 +159,7 @@ if [ $# -ne 0 ]; then
 	cp "${OPTTEMPLATEDIR}/atlantis.${OPTREGION}${REGSTR}.config" "${OPTPATH}/atlantis.config"
 
 	#find and replace vars in config
-	sed -i -E "s|LS_PATH=\".+?\"|LS_PATH=\"${OPTPATH}\"|g" $OPTPATH/atlantis.config
+	sed -i -E "s|LS_PATH=\".+?\"|LS_PATH=\"${OPTPATHROOT}\"|g" $OPTPATH/atlantis.config
 	sed -i -E "s|LS_LOG_PATH=\".+?\"|LS_LOG_PATH=\"${OPTLOGPATH}\"|g" $OPTPATH/atlantis.config
 	sed -i -E "s/LS_REGION=\".+?\"/LS_REGION=\"${OPTREGION}\"/g" $OPTPATH/atlantis.config
 	sed -i -E "s/LS_ENVIROMENT=\".+?\"/LS_ENVIROMENT=\"${OPTENV}\"/g" $OPTPATH/atlantis.config
