@@ -27,7 +27,9 @@ cat <<-EOF
 		-x	The Elasticsearch clustername (default is elasticsearch-atlantis)
 		-d	The sincedb location (default is repo root)
 		-l	The logstash download url (default is https://download.elastic.co/logstash/logstash/logstash-VERSION.tar.gz
-
+	
+		Non-Config Related:
+		-b	Build config but don't start running setup, just a flag
 		-h      Show this message
 
 EOF
@@ -47,11 +49,12 @@ if [ $# -ne 0 ]; then
 	OPTESCN="elasticsearch-atlantis"
 	OPTSDBDIR=""
 	OPTLSDLURL="https://download.elastic.co/logstash/logstash/logstash-\${LS_VERION}.tar.gz"
+	OPTBUILDONLY=""
 
 	#handle optional param line args
-	while getopts R:e:c:s:p:o:n:i:v:u:x:d:l:h opt; do
+	while getopts R:e:c:s:p:o:n:i:v:u:x:d:l:hb opt; do
 		#if a non empty string was passed or health flag
-		if [ "${OPTARG}" != "" ] || [ "${opt}" == "h" ] ; then
+		if [ "${OPTARG}" != "" ] || [ "${opt}" == "h" ] || [ "${opt}" == "b" ] ; then
 
 			case $opt in
 				R)
@@ -93,6 +96,9 @@ if [ $# -ne 0 ]; then
 
 				l)
 					OPTLSDLURL=$OPTARG
+					;;
+				b)
+					OPTBUILDONLY="true"
 					;;
 				h)
 					usage
@@ -140,6 +146,13 @@ if [ $# -ne 0 ]; then
 		REGSTR=".${OPTENV}"
 	fi
 
+	#save old config incase someone accidently calls setup with a parm after or something
+	if [[ -f $OPTPATH/atlantis.config ]]; then
+		echo "Found existing atlantis.config, renaming to avoid deletion"
+		DATESTR=$(date +%m-%d-%y_%H-%M-%S)
+		mv $OPTPATH/atlantis.config "${OPTPATH}/atlantis.config-${DATESTR}"
+	fi 
+
 	#cp template to root dir
 	cp "${OPTTEMPLATEDIR}/atlantis.${OPTREGION}${REGSTR}.config" "${OPTPATH}/atlantis.config"
 
@@ -157,6 +170,12 @@ if [ $# -ne 0 ]; then
 	sed -i -E "s/LS_ELASTIC_CLUSTERNAME=\".+?\"/LS_ELASTIC_CLUSTERNAME=\"${OPTESCN}\"/g" $OPTPATH/atlantis.config
 	sed -i -E "s/LS_SINCEDB_DIR=\".+?\"/LS_SINCEDB_DIR=\"${OPTSDBDIR}\"/g" $OPTPATH/atlantis.config
 	sed -i -E "s/LS_DL_URL=\".+?\"/LS_DL_URL=\"${OPTLSDLURL}\"/g" $OPTPATH/atlantis.config
+
+
+	if [[ "${OPTBUILDONLY}" == "true" ]]; then 
+		echo "Finished building config and aborting before setup due to -b flag"
+		exit 0
+	fi
 
 fi
 
